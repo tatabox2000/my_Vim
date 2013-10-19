@@ -15,6 +15,7 @@ NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'thinca/vim-template'
 NeoBundle 'lambdalisue/vim-django-support'
+NeoBundle 'itchyny/lightline.vim'
 
 
 filetype plugin indent on     " required!
