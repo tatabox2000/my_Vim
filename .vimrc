@@ -1,6 +1,8 @@
 if has('vim_starting')
   set runtimepath+=~/vimfiles/bundle/neobundle.vim
-  call neobundle#rc(expand('~/vimfiles/bundle/'))
+  call neobundle#begin(expand('~/.vim/bundle/'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
 endif
 
 NeoBundle 'Shougo/neobundle.vim'
@@ -22,24 +24,24 @@ filetype plugin indent on     " required!
 filetype indent on
 syntax on
 
-" “ü—Íƒ‚[ƒh’†‚É‘f‘‚­jj‚Æ“ü—Í‚µ‚½ê‡‚ÍESC‚Æ‚İ‚È‚·
+" å…¥åŠ›ãƒ¢ãƒ¼ãƒ‰ä¸­ã«ç´ æ—©ãjjã¨å…¥åŠ›ã—ãŸå ´åˆã¯ESCã¨ã¿ãªã™
 inoremap jj <Esc>
 
-" j, k ‚É‚æ‚éˆÚ“®‚ğÜ‚è•Ô‚³‚ê‚½ƒeƒLƒXƒg‚Å‚à©‘R‚ÉU‚é•‘‚¤‚æ‚¤‚É•ÏX
+" j, k ã«ã‚ˆã‚‹ç§»å‹•ã‚’æŠ˜ã‚Šè¿”ã•ã‚ŒãŸãƒ†ã‚­ã‚¹ãƒˆã§ã‚‚è‡ªç„¶ã«æŒ¯ã‚‹èˆã†ã‚ˆã†ã«å¤‰æ›´
 nnoremap j gj
 nnoremap k gk
 
-" ƒXƒƒbƒvƒtƒ@ƒCƒ‹“™–³Œø‰»
+" ã‚¹ãƒ¯ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ç­‰ç„¡åŠ¹åŒ–
 set nowritebackup
 set nobackup
 set noswapfile
 
 
 
-" ƒJ[ƒ\ƒ‹‰º‚Ì’PŒê‚ğ * ‚ÅŒŸõ
+" ã‚«ãƒ¼ã‚½ãƒ«ä¸‹ã®å˜èªã‚’ * ã§æ¤œç´¢
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
 
-" ŒŸõŒã‚ÉƒWƒƒƒ“ƒv‚µ‚½Û‚ÉŒŸõ’PŒê‚ğ‰æ–Ê’†‰›‚É‚Á‚Ä‚­‚é
+" æ¤œç´¢å¾Œã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ãŸéš›ã«æ¤œç´¢å˜èªã‚’ç”»é¢ä¸­å¤®ã«æŒã£ã¦ãã‚‹
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -47,11 +49,11 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-" j, k ‚É‚æ‚éˆÚ“®‚ğÜ‚è•Ô‚³‚ê‚½ƒeƒLƒXƒg‚Å‚à©‘R‚ÉU‚é•‘‚¤‚æ‚¤‚É•ÏX
+" j, k ã«ã‚ˆã‚‹ç§»å‹•ã‚’æŠ˜ã‚Šè¿”ã•ã‚ŒãŸãƒ†ã‚­ã‚¹ãƒˆã§ã‚‚è‡ªç„¶ã«æŒ¯ã‚‹èˆã†ã‚ˆã†ã«å¤‰æ›´
 nnoremap j gj
 nnoremap k gk
 
-" TAB‚É‚Ä‘Î‰ƒyƒA‚ÉƒWƒƒƒ“ƒv
+" TABã«ã¦å¯¾å¿œãƒšã‚¢ã«ã‚¸ãƒ£ãƒ³ãƒ—
 nnoremap <Tab> %
 vnoremap <Tab> %
 
@@ -65,7 +67,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-"quickrun‚Ìİ’è
+"quickrunã®è¨­å®š
 NeoBundleLazy "thinca/vim-quickrun", {
       \ "autoload": {
       \   "mappings": [['nxo', '<Plug>(quickrun)']]
@@ -78,10 +80,10 @@ function! s:hooks.on_source(bundle)
       \ }
 endfunction
 
-"quickrunÀsiƒXƒy[ƒX{rj
+"quickrunå®Ÿè¡Œï¼ˆã‚¹ãƒšãƒ¼ã‚¹ï¼‹rï¼‰
 silent! nmap <Space>r <Plug>(quickrun)
 
-"ƒXƒ}[ƒgƒCƒ“ƒfƒ“ƒg
+"ã‚¹ãƒãƒ¼ãƒˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆ
 set smartindent
-" VimShell ‚Ì‹N“®ƒRƒ}ƒ“ƒh
+" VimShell ã®èµ·å‹•ã‚³ãƒãƒ³ãƒ‰
 silent! nmap <Space>m <Plug>(vimshell)
