@@ -1,8 +1,6 @@
 if has('vim_starting')
   set runtimepath+=~/vimfiles/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
+  call neobundle#rc(expand('~/vimfiles/bundle/'))
 endif
 
 NeoBundle 'Shougo/neobundle.vim'
@@ -12,15 +10,16 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'thinca/vim-template'
 NeoBundle 'lambdalisue/vim-django-support'
-NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'lightline.vim'
+NeoBundle 'vobornik/vim-mql4'
+NeoBundle 'tukiyo/previm'
 
-
+NeoBundle 'tyru/open-browser.vim'
 filetype plugin indent on     " required!
 filetype indent on
 syntax on
@@ -59,7 +58,7 @@ nnoremap <Tab> %
 vnoremap <Tab> %
 
 "neocomplete
-let g:neocomplete_enable_at_startup = 0
+let g:neocomplete#enable_at_startup = 1
 inoremap <expr><Up> pumvisible() ? neocomplete#close_popup()."\<Up>" : "\<Up>"
 inoremap <expr><Down> pumvisible() ? neocomplete#close_popup()."\<Down>" : "\<Down>"
 
@@ -76,9 +75,10 @@ NeoBundleLazy "thinca/vim-quickrun", {
 
 let s:hooks = neobundle#get_hooks("vim-quickrun")
 function! s:hooks.on_source(bundle)
-  let g:quickrun_config = {
-      \ "*": {"runner": "remote/vimproc"},
-      \ }
+    let g:quickrun_config={'*': {'split': ''}}
+    set splitbelow
+    let g:quickrun_config = {\ "*": {"runner": "remote/vimproc"},\ }
+
 endfunction
 
 "quickrun実行（スペース＋r）
@@ -88,3 +88,21 @@ silent! nmap <Space>r <Plug>(quickrun)
 set smartindent
 " VimShell の起動コマンド
 silent! nmap <Space>m <Plug>(vimshell)
+"open-brawser
+let g:netrw_nogx = 1
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
+
+
+" Previm
+let g:previm_open_cmd = ''
+augroup PrevimSettings
+	autocmd!
+	autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+augroup END
+
+nnoremap [previm] <Nop>
+nmap <Space>p [previm]
+nnoremap <silent> [previm]o :<C-u>PrevimOpen<CR>
+nnoremap <silent> [previm]r :call previm#refresh()<CR>
