@@ -1,5 +1,8 @@
 if !1 | finish | endif
-
+"tab to space
+set expandtab
+set tabstop=4
+set shiftwidth=4
 if has('vim_starting')
   if &compatible
     set nocompatible               " Be iMproved
@@ -32,6 +35,16 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'vobornik/vim-mql4'
 NeoBundle 'tukiyo/previm'
 NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tpope/vim-dispatch'
+NeoBundleLazy 'OmniSharp/omnisharp-vim', {
+\   'autoload': {'filetypes': ['cs']},
+\   'build': {
+\     'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
+\     'mac': 'xbuild server/OmniSharp.sln',
+\     'unix': 'xbuild server/OmniSharp.sln',
+\   }
+\ }
+
  " My Bundles here:
  " Refer to |:NeoBundle-examples|.
  " Note: You don't set neobundle setting in .gvimrc!
@@ -82,11 +95,15 @@ nnoremap k gk
 nnoremap <Tab> %
 vnoremap <Tab> %
 
+
 "neocomplete
+
+
 let g:neocomplete#enable_at_startup = 1
 inoremap <expr><Up> pumvisible() ? neocomplete#close_popup()."\<Up>" : "\<Up>"
 inoremap <expr><Down> pumvisible() ? neocomplete#close_popup()."\<Down>" : "\<Down>"
 autocmd FileType python setlocal omnifunc=jedi#completions
+autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -102,6 +119,8 @@ if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.cs = '.*[^=\);]'
+
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>" 
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
@@ -120,6 +139,7 @@ function! s:hooks.on_source(bundle)
     let g:quickrun_config = {\ "*": {"runner": "remote/vimproc"},\ }
 
 endfunction
+
 
 "quickrun実行（スペース＋r）
 silent! nmap <Space>r <Plug>(quickrun)
