@@ -167,3 +167,4 @@ nmap <Space>p [previm]
 nnoremap <silent> [previm]o :<C-u>PrevimOpen<CR>
 nnoremap <silent> [previm]r :call previm#refresh()<CR>
 set pythonthreedll=C:\ProgramData\Anaconda3\python36.dll
+set pythondll=C:\ProgramData\Anaconda3\python36.dll
