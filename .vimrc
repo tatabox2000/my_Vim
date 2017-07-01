@@ -3,64 +3,77 @@ if !1 | finish | endif
 set expandtab
 set tabstop=4
 set shiftwidth=4
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-   " Required:
-  set runtimepath+=~/vimfiles/bundle/neobundle.vim/
+let s:dein_dir = expand('~\vimfiles\dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '\repos\github.com\Shougo\dein.vim'
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+        execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    endif
+    "execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+    execute 'set runtimepath^=' . s:dein_repo_dir   
 endif
 
- " Required:
-call neobundle#begin(expand('~/vimfiles/bundle/'))
 
- " Let NeoBundle manage NeoBundle
- " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'VimClojure'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplete'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'thinca/vim-template'
-NeoBundle 'lambdalisue/vim-django-support'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'vobornik/vim-mql4'
-NeoBundle 'tukiyo/previm'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundleLazy 'OmniSharp/omnisharp-vim', {
-\   'autoload': {'filetypes': ['cs']},
-\   'build': {
-\     'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
-\     'mac': 'xbuild server/OmniSharp.sln',
-\     'unix': 'xbuild server/OmniSharp.sln',
-\   }
-\ }
 
- " My Bundles here:
- " Refer to |:NeoBundle-examples|.
- " Note: You don't set neobundle setting in .gvimrc!
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
 
-call neobundle#end()
+" Required:
+"set runtimepath+=/c/Users/tatab/vimfiles/repos/github.com/Shougo/dein.vim
 
- " Required:
+" Required:
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " Let dein manage dein
+  " Required:
+  call dein#add(s:dein_repo_dir)
+  
+  call dein#add('vim-scripts/VimClojure')
+  call dein#add('Shougo/vimproc')
+  call dein#add('Shougo/vimshell')
+  call dein#add('Shougo/unite.vim')
+  call dein#add('Shougo/neocomplete')
+  call dein#add('Shougo/neosnippet')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('jpalardy/vim-slime')
+  call dein#add('davidhalter/jedi-vim')
+  call dein#add('Shougo/vimfiler')
+  call dein#add('thinca/vim-template')
+  call dein#add('lambdalisue/vim-django-support')
+  call dein#add('itchyny/lightline.vim')
+  call dein#add('vobornik/vim-mql4')
+  call dein#add('tukiyo/previm')
+  call dein#add('tyru/open-browser.vim')
+  call dein#add('tpope/vim-dispatch')
+  call dein#add('thinca/vim-quickrun') 
+  " You can specify revision/branch/tag.
+  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+let g:quickrun_config = {'*': {'hook/time/enable': '1'},}
+"let g:quickrun_config = {
+"  \ 'python': {
+"  \   'command': 'python3'
+"  \ },}
+" Required:
 filetype plugin indent on
+syntax enable
 
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
-NeoBundleCheck
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
 
+"End dein Scripts-------------------------
 
-filetype indent on
-syntax on
 
 " 入力モード中に素早くjjと入力した場合はESCとみなす
 inoremap jj <Esc>
@@ -126,19 +139,6 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-"quickrunの設定
-NeoBundleLazy "thinca/vim-quickrun", {
-      \ "autoload": {
-      \   "mappings": [['nxo', '<Plug>(quickrun)']]
-      \ }}
-
-let s:hooks = neobundle#get_hooks("vim-quickrun")
-function! s:hooks.on_source(bundle)
-    let g:quickrun_config={'*': {'split': ''}}
-    set splitbelow
-    let g:quickrun_config = {\ "*": {"runner": "remote/vimproc"},\ }
-
-endfunction
 
 
 "quickrun実行（スペース＋r）
@@ -166,3 +166,4 @@ nnoremap [previm] <Nop>
 nmap <Space>p [previm]
 nnoremap <silent> [previm]o :<C-u>PrevimOpen<CR>
 nnoremap <silent> [previm]r :call previm#refresh()<CR>
+set pythonthreedll=C:\ProgramData\Anaconda3\python36.dll
