@@ -3,6 +3,12 @@ if !1 | finish | endif
 set expandtab
 set tabstop=4
 set shiftwidth=4
+imap <`> <esc>
+set swapfile
+set dir=c:\\Temp
+set undodir=c:\\Temp
+
+
 let s:dein_dir = expand('~\vimfiles\dein')
 " dein.vim 本体
 let s:dein_repo_dir = s:dein_dir . '\repos\github.com\Shougo\dein.vim'
