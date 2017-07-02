@@ -3,7 +3,7 @@ if !1 | finish | endif
 set expandtab
 set tabstop=4
 set shiftwidth=4
-imap <`> <esc>
+imap <C-j> <esc>
 set swapfile
 set dir=c:\\Temp
 set undodir=c:\\Temp
